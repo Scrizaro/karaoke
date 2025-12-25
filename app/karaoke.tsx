@@ -16,6 +16,11 @@ const { width } = Dimensions.get('window');
 const SYNC_OFFSET = 1050;
 
 const KaraokeScreen = () => {
+    const router = useRouter();
+    const [lastSkipBackTime, setLastSkipBackTime] = useState(0);
+    const [showTranslation, setShowTranslation] = useState(false);
+    const insets = useSafeAreaInsets();
+
     const {
         currentTime,
         duration,
@@ -25,9 +30,6 @@ const KaraokeScreen = () => {
         skipForward,
         skipBackward
     } = useKaraokeAudio(MOCK_LYRICS_DATA.audio);
-
-    const router = useRouter();
-    const [lastSkipBackTime, setLastSkipBackTime] = useState(0);
 
     const {
         lyrics,
@@ -43,9 +45,6 @@ const KaraokeScreen = () => {
         handleLineLayout,
         scrollToActiveLine
     } = useLyricsScroll(activeLineIndex);
-
-    const [showTranslation, setShowTranslation] = useState(false);
-    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         if (activeLineIndex !== -1) {
