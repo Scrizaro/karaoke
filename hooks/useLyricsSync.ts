@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { KaraokeLine, KaraokeWord, LrcLine, RichSyncWord } from '@/constants/types';
 
 export const useLyricsSync = (richSyncWords: RichSyncWord[], rawLrc: LrcLine[], currentTime: number, syncOffset: number = 0) => {
@@ -57,7 +57,7 @@ export const useLyricsSync = (richSyncWords: RichSyncWord[], rawLrc: LrcLine[], 
         return lines;
     };
 
-    const lyrics = React.useMemo(() => processRichSync(richSyncWords, rawLrc), [richSyncWords, rawLrc]);
+    const lyrics = useMemo(() => processRichSync(richSyncWords, rawLrc), [richSyncWords, rawLrc]);
 
     useEffect(() => {
         activeLineIndexRef.current = activeLineIndex;
