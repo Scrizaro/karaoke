@@ -12,7 +12,7 @@ export const useLyricsSync = (richSyncWords: RichSyncWord[], rawLrc: LrcLine[], 
 
         wordsData.forEach((wordData) => {
             const word = {
-                text: wordData.punctuatedWord + (wordData.punctuatedWord.endsWith(' ') ? '' : ' '),
+                text: wordData.punctuatedWord,
                 start: wordData.start,
                 end: wordData.end,
                 duration: wordData.end - wordData.start
