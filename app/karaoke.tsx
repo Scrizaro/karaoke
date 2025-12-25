@@ -9,6 +9,7 @@ import { MOCK_LYRICS_DATA } from '@/constants/mockData';
 import { useKaraokeAudio } from '@/hooks/useKaraokeAudio';
 import { useLyricsScroll } from '@/hooks/useLyricsScroll';
 import { useLyricsSync } from '@/hooks/useLyricsSync';
+import {formatTime} from "@/app/utils/formatTime";
 
 const { width } = Dimensions.get('window');
 // Audio calibration offset for mockData
@@ -16,7 +17,6 @@ const SYNC_OFFSET = 1050;
 
 const KaraokeScreen = () => {
     const {
-        sound,
         currentTime,
         duration,
         isPlaying,
@@ -55,10 +55,6 @@ const KaraokeScreen = () => {
         }
     }, [showTranslation]);
 
-    const toggleTranslation = () => {
-        setShowTranslation(!showTranslation);
-    };
-
     const handleSkipBackward = () => {
         const now = Date.now();
         if (now - lastSkipBackTime < 500) { // Double tap threshold
@@ -69,10 +65,6 @@ const KaraokeScreen = () => {
         setLastSkipBackTime(now);
     };
 
-    const handleSeek = (ms: number) => {
-        seek(ms);
-    };
-
     const handleProgressBarPress = (e: GestureResponderEvent) => {
         if (duration === 0) return;
         const { locationX } = e.nativeEvent;
@@ -80,12 +72,6 @@ const KaraokeScreen = () => {
         const percentage = locationX / barWidth;
         const seekTime = duration * percentage;
         seek(seekTime);
-    };
-
-    const formatTime = (ms: number) => {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = Math.floor((ms % 60000) / 1000);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
     return (
@@ -136,7 +122,7 @@ const KaraokeScreen = () => {
                     return (
                         <TouchableOpacity
                             key={index}
-                            onPress={() => handleSeek(line.milliseconds)}
+                            onPress={() => seek(line.milliseconds)}
                             activeOpacity={0.7}
                             onLayout={(e) => handleLineLayout(index, e)}
                         >
@@ -176,7 +162,7 @@ const KaraokeScreen = () => {
 
             <View style={[styles.controls, { paddingBottom: insets.bottom + 20 }]}>
                 <TouchableOpacity
-                    onPress={toggleTranslation}
+                    onPress={() => setShowTranslation(!showTranslation)}
                     style={[
                         styles.translationButton,
                         { backgroundColor: showTranslation ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.15)' }

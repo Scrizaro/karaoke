@@ -28,7 +28,7 @@ export const useKaraokeAudio = (audioSource: AVPlaybackSource) => {
                 sound.unloadAsync();
             }
         };
-    }, [audioSource]); // Re-load if source changes, though unlikely in this simplified case
+    }, [audioSource]); // Re-load if audio source changes
 
     const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
         if (status.isLoaded) {
@@ -70,7 +70,6 @@ export const useKaraokeAudio = (audioSource: AVPlaybackSource) => {
     };
 
     return {
-        sound,
         currentTime,
         duration,
         isPlaying,
